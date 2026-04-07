@@ -1,11 +1,9 @@
 from google.adk import Agent
-import os
+from config import MODEL
 
-model_name = os.getenv("MODEL")
-
-data_agent = Agent(
+analyzer_agent = Agent(
     name="analyzer_agent",
-    model=model_name,
+    model=MODEL,
     instruction="""
 Analyze the provided market data and extract insights.
 

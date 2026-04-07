@@ -1,11 +1,9 @@
 from google.adk import Agent
-import os
+from config import MODEL
 
-model_name = os.getenv("MODEL")
-
-data_agent = Agent(
+report_agent = Agent(
     name="report_agent",
-    model=model_name,
+    model=MODEL,
     instruction="""
 You will receive structured JSON with:
 - trends
@@ -23,5 +21,4 @@ Format:
 
 Be concise and clear.
 """
-
 )

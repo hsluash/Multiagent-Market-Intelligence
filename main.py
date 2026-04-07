@@ -1,8 +1,14 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 
+import logging
+import google.cloud.logging
+
 from agents.coordinator import coordinator_agent
 from tools.storage_tools import save_report, retrieve_reports
+
+cloud_logging_client = google.cloud.logging.Client()
+cloud_logging_client.setup_logging()
 
 app = FastAPI()
 

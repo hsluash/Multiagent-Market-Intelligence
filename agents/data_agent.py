@@ -1,12 +1,10 @@
 from google.adk import Agent
 from tools.market_tools import get_market_trends
-import os
-
-model_name = os.getenv("MODEL")
+from config import MODEL
 
 data_agent = Agent(
     name="data_agent",
-    model=model_name,
+    model=MODEL,
     instruction="""
 Retrieve market trends using the available tool.
 Return only relevant data.
