@@ -1,20 +1,18 @@
 import streamlit as st
 import requests
 
-st.write("App loaded")
-API_URL = "https://market-intelligence-340869982336.us-central1.run.app"
-
-st.write("App loaded")
 st.set_page_config(page_title="Market Intelligence AI", layout="wide")
 
+API_URL = "https://market-intelligence-340869982336.us-central1.run.app"
+
 st.title("📊 Market Intelligence AI Agent")
-st.write("Generate business insights using multi-agent AI")
+st.write("Research any market topic — get a report, action tasks, and a follow-up schedule automatically.")
 
 topic = st.text_input("Enter a topic", placeholder="e.g. AI in healthcare startups")
 
 if st.button("Generate Report"):
     if topic:
-        with st.spinner("Analyzing market trends..."):
+        with st.spinner("Researching, analyzing, and planning actions..."):
             response = requests.post(
                 f"{API_URL}/generate",
                 json={"topic": topic}
@@ -25,10 +23,17 @@ if st.button("Generate Report"):
 
                 st.success("Report Generated ✅")
 
-                st.subheader("📈 Insights")
-                st.write(data["report"])
+                st.subheader("📈 Market Intelligence Report")
+                st.write(data.get("report", ""))
+
+                # if data.get("actions"):
+                #     st.subheader("✅ Action Plan")
+                #     st.write(data["actions"])
+
             else:
-                st.error("Something went wrong")
+                st.error(f"Something went wrong (status {response.status_code})")
+    else:
+        st.warning("Please enter a topic.")
 
 # History section
 st.divider()
@@ -42,7 +47,16 @@ if st.button("Get History"):
 
         if response.status_code == 200:
             data = response.json()
+            count = data.get("history_count", 0)
+            if count == 0:
+                st.info(f"No reports found for '{history_topic}'. Generate one first.")
+            else:
+                st.write(f"Found {count} report(s) for **{history_topic}**")
+                for i, report in enumerate(data["reports"], 1):
+                    with st.expander(f"Report {i} — {report.get('timestamp', 'unknown time')}"):
+                        st.write(report.get("report", ""))
+        else:
+            st.error(f"Could not fetch history (status {response.status_code}). Check that the topic matches exactly.")
+    else:
+        st.warning("Please enter a topic.")
 
-            for i, report in enumerate(data["reports"], 1):
-                st.markdown(f"**Report {i}:**")
-                st.write(report)

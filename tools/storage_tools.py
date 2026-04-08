@@ -16,7 +16,9 @@ def retrieve_reports(topic: str):
     docs = (
         db.collection("reports")
         .where("topic", "==", topic)
-        .order_by("timestamp", direction=firestore.Query.DESCENDING)
         .stream()
     )
-    return [doc.to_dict() for doc in docs]
+    results = [doc.to_dict() for doc in docs]
+    # Sort in Python to avoid requiring a Firestore composite index
+    results.sort(key=lambda x: x.get("timestamp", ""), reverse=True)
+    return results

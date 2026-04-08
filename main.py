@@ -53,21 +53,15 @@ async def generate(req: Request):
         user_id="api_user"
     )
 
-    # session = session_service.create_session(
-    # app_name="market_intelligence",
-    # user_id="api_user"
-    # )
-
-    # # Fix for coroutine edge cases
-    # if hasattr(session, "__await__"):
-    #     session = await session
-
     message = types.Content(
         role="user",
         parts=[types.Part.from_text(text=topic)]
     )
 
-    result_text = ""
+    report_text = ""
+    action_text = ""
+    all_final_responses = []
+
     for event in runner.run(
         user_id="api_user",
         session_id=session.id,
@@ -76,22 +70,37 @@ async def generate(req: Request):
         if event.is_final_response() and event.content:
             for part in event.content.parts:
                 if part.text:
-                    result_text += part.text
+                    all_final_responses.append({
+                        "author": getattr(event, "author", "unknown"),
+                        "text": part.text
+                    })
 
-    # try:
-    #     parsed = json.loads(result_text)
-    # except:
-    #     parsed = {
-    #         "trends": [],
-    #         "opportunities": [],
-    #         "risks": []
-    #     }
+    # report_agent is the 4th agent (index 3), action_agent is 5th (index 4)
+    for resp in all_final_responses:
+        author = resp.get("author", "")
+        text = resp.get("text", "")
+        if "report_agent" in author:
+            report_text = text
+        elif "action_agent" in author:
+            action_text = text
 
-    save_report(topic, result_text)
+    # Fallback: if author matching fails, use second-to-last and last responses
+    if not report_text and len(all_final_responses) >= 2:
+        report_text = all_final_responses[-2]["text"]
+    if not action_text and len(all_final_responses) >= 1:
+        action_text = all_final_responses[-1]["text"]
+
+    # Final fallback: use all text joined
+    combined = report_text or "\n\n".join(r["text"] for r in all_final_responses)
+
+    logger.info(f"Pipeline complete. Agents responded: {[r['author'] for r in all_final_responses]}")
+
+    save_report(topic, combined)
 
     return {
         "topic": topic,
-        "report": result_text
+        "report": report_text or combined,
+        "actions": action_text
     }
 
 
