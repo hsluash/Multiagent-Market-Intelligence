@@ -4,10 +4,14 @@ from config import MODEL
 
 data_agent = Agent(
     name="data_agent",
-    model=MODEL,
-    instruction="""
-Retrieve market trends using the available tool.
-Return only relevant data.
-""",
+    description="Generates initial market context and raw observations.",
     tools=[get_market_trends],
+    instruction="""
+You are responsible for generating initial market context.
+
+Given a topic:
+- Describe general market trends
+- Mention demand patterns
+- Keep it concise
+"""
 )

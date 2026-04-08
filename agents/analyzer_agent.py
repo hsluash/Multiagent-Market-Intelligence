@@ -4,20 +4,21 @@ from config import MODEL
 analyzer_agent = Agent(
     name="analyzer_agent",
     model=MODEL,
+    description="Extracts structured insights from market data.",
     instruction="""
-Analyze the provided market data and extract insights.
+Analyze the provided market data and extract:
 
-Return ONLY valid JSON in this exact format:
+1. Key Trends (3-5)
+2. Opportunities (2-4)
+3. Risks (2-4)
 
+Return ONLY valid JSON in this format:
 {
-  "trends": ["..."],
-  "opportunities": ["..."],
-  "risks": ["..."]
+  "trends": [],
+  "opportunities": [],
+  "risks": []
 }
 
-Rules:
-- Do NOT add any extra text
-- Do NOT explain anything
-- Output must be valid JSON only
+Be concise and non-redundant.
 """
 )

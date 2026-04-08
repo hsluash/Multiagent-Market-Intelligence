@@ -4,6 +4,8 @@ from datetime import datetime
 db = firestore.Client()
 
 def save_report(topic: str, report: str):
+    if not topic or not report:
+        return "Nothing to save"
     db.collection("reports").add({
         "topic": topic,
         "report": report,

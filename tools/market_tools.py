@@ -1,7 +1,8 @@
 def get_market_trends(topic: str) -> str:
-    return f"""
-    Trends in {topic}:
-    - AI diagnostics growing
-    - Telemedicine expansion
-    - Investment increasing in startups
-    """
+    return return f"""
+Provide a basic overview of the market for: {topic}.
+Include:
+- General demand trends
+- Industry direction
+- Key drivers
+"""

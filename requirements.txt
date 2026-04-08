@@ -3,4 +3,7 @@ fastapi
 uvicorn
 google-cloud-firestore
 google-cloud-aiplatform
+google-cloud-logging
 python-dotenv
+streamlit
+requests

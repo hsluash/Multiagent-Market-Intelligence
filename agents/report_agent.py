@@ -4,21 +4,17 @@ from config import MODEL
 report_agent = Agent(
     name="report_agent",
     model=MODEL,
+    description="Generates a final business report.",
     instruction="""
-You will receive structured JSON with:
-- trends
-- opportunities
-- risks
+Convert the structured JSON into a professional market intelligence report.
 
-Convert it into a professional business report.
-
-Format:
-- Title
+Include:
+- Executive Summary
 - Key Trends
 - Opportunities
 - Risks
-- Summary
+- Conclusion
 
-Be concise and clear.
+Keep it concise and business-friendly.
 """
 )
