@@ -1,4 +1,4 @@
-[![Watch Demo](thumbnail.png)](./demo.mp4)
+[![Watch Demo](thumbnail.png)](./streamlit-ui-2026-04-08-17-35-57.webm)
 # 📊 Multiagent Market Intelligence System
 
 > A multi-agent AI system that researches any market topic end-to-end — from gathering live data and generating a structured business report, to automatically creating follow-up tasks, saving notes, and scheduling next steps — so users go from **research to action in a single request**.
