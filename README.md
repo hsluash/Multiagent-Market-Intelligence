@@ -173,8 +173,8 @@ streamlit run ui.py
 ```
 ## Results
 
-**Report**: Can be viewed on the streamlit UI and also in the firestore (in GCP)
-**Notes & Tasks**: Can be found in the firestore based on corresponding topic
+- **Report**: Can be viewed on the streamlit UI and also in the firestore (in GCP)
+- **Notes & Tasks**: Can be found in the firestore based on corresponding topic
 
 ---
 
@@ -188,7 +188,7 @@ gcloud services enable run.googleapis.com firestore.googleapis.com aiplatform.go
 gcloud firestore databases create --location=us-central1
 
 # 3. Grant IAM permissions
-```
+
 gcloud auth application-default login
 
 gcloud projects add-iam-policy-binding $PROJECT_ID \
@@ -198,7 +198,6 @@ gcloud projects add-iam-policy-binding $PROJECT_ID \
 gcloud projects add-iam-policy-binding $PROJECT_ID \
   --member="serviceAccount:$SERVICE_ACCOUNT" \
   --role="roles/aiplatform.user"
-```
 
 # 4. Build and Deploy — explicit --port 8080 is required
 gcloud run deploy market-intelligence \
@@ -208,7 +207,7 @@ gcloud run deploy market-intelligence \
   --allow-unauthenticated \
   --port=8080 \
   --set-env-vars GOOGLE_CLOUD_PROJECT=${PROJECT_ID},GOOGLE_CLOUD_LOCATION=us-central1,GOOGLE_GENAI_USE_VERTEXAI=1,MODEL=gemini-2.5-flash
-
+```
 ---
 
 ## 🔮 Future Roadmap
