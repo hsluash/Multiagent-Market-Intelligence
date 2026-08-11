@@ -65,6 +65,7 @@ User Request: "AI in healthcare"
 | `action_agent` | Saves note, creates follow-up tasks, retrieves schedule | `save_note`, `save_task`, `get_schedule` (function tools) |
 
 **Coordinator**: `SequentialAgent` — runs all 5 agents in order, passing each output as input to the next.
+The `SequentialAgent` in Google's ADK follows a centralized hierarchical workflow.It is hierarchical because it operates under a strict parent-child structure, and it is centralized because the parent orchestrator holds complete, absolute control over the execution order. The sub-agents themselves are entirely flat, isolated, and unaware of one another.
 
 ---
 
